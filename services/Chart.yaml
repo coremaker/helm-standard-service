@@ -1,0 +1,4 @@
+apiVersion: v1
+name: coremaker-common-chart
+version: 0.0.1
+description: This is the coremaker common helm chart used to deploy our services

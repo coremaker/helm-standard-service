@@ -1,0 +1,108 @@
+## Provide a name in place of the default one as the release name
+nameOverride:
+
+replicaCount: 1
+image:
+  pullPolicy: IfNotPresent
+
+container:
+  ports:
+    name: node
+    port: 5000
+
+  ## Configures the liveness probe used to determine if the Worker component is up.
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+  livenessProbe:
+    failureThreshold: 12
+    initialDelaySeconds: 20
+    timeoutSeconds: 10
+    httpGet:
+      path: /health
+      port: node
+
+  ## Configures the readiness probes.
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+  readinessProbe:
+    initialDelaySeconds: 20
+    timeoutSeconds: 10
+    failureThreshold: 12
+    httpGet:
+      path: /health
+      port: node
+
+  ## Configure environment variables
+  ##
+  ## Example:
+  ##   - name: ENVIRONMENT_NAME
+  ##     value: "DEV"
+  ##
+  ##    - name: ENVIRONMENT_NAME
+  ##      value: {{ .Values.envName }}
+  ##
+  ## Secret Example
+  ##    - name: KAFKA_PASSWORD
+  ##      valueFrom:
+  ##        secretKeyRef:
+  ##          name: kafka-secret
+  ##          key: password
+  env: []
+
+  ## Configure additional volumeMounts
+  ##
+  ## Example:
+
+  ##  - name: sql-proxy-secret
+  ##    mountPath: /secrets/cloudsql
+  ##    readOnly: true
+  ##
+  additionalVolumeMounts: []
+
+## Enable Horizontal Pod Autoscaling
+#      maxReplicas: 1
+#      minReplicas: 1
+#      metrics:
+#        - type: Resource
+#          resource:
+#            name: cpu
+#            target:
+#              type: Utilization
+#              averageUtilization: 80
+  autoscaling: { }
+
+## Used to change the backend of the service
+  backend:
+    enabled: false
+    # Increase backend timeout, usually needed for longer http connections
+    timeout: 43200
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+## Configure additional volumes
+##   additionalVolumes:
+##    - name: sql-proxy-secret
+##      secret:
+##        secretName: sql-proxy-secret
+##
+additionalVolumes: []
+
+## Array of extra containers to run alongside the main container
+##
+## Example:
+##
+## - name: myapp-container
+##   image: busybox
+##   command: ['sh', '-c', 'echo Hello && sleep 3600']
+##
+sidecarContainers: []
+
+## Array of extra initContainers to run alongside the main container
+##
+## Example:
+## - name: myapp-init-container
+##   image: busybox
+##   command: ['sh', '-c', 'echo Hello && sleep 3600']
+##
+initContainers: []

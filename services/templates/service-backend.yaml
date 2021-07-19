@@ -1,0 +1,8 @@
+{{- if .Values.container.backend.enabled -}}
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: {{ .Chart.Name }}-service-backend
+spec:
+  timeoutSec: {{ .Values.container.backend.timeout }}
+{{- end }}

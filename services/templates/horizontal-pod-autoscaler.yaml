@@ -1,0 +1,19 @@
+{{- if  .Values.container.autoscaling }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Chart.Name }}-autoscaler
+  labels:
+    chart: {{ .Chart.Name }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Chart.Name }}
+  minReplicas: {{ .Values.container.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.container.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.concourse.worker.autoscaling.metrics }}
+{{ toYaml .Values.concourse.worker.autoscaling.metrics | indent 4 }}
+    {{- end }}
+{{- end }}
