@@ -4,6 +4,7 @@ nameOverride:
 replicaCount: 1
 image:
   pullPolicy: IfNotPresent
+terminationGracePeriodSeconds: 30
 
 container:
   ports:
@@ -33,19 +34,18 @@ container:
   ## Configure environment variables
   ##
   ## Example:
-  ##   - name: ENVIRONMENT_NAME
-  ##     value: "DEV"
+  ## TESTING_INSTANCE: false
   ##
-  ##    - name: ENVIRONMENT_NAME
-  ##      value: {{ .Values.envName }}
+  ## AWS_REGION: us-east-1
   ##
+  env: {}
   ## Secret Example
   ##    - name: KAFKA_PASSWORD
   ##      valueFrom:
   ##        secretKeyRef:
   ##          name: kafka-secret
   ##          key: password
-  env: []
+  envFromSecret: []
 
   ## Configure additional volumeMounts
   ##
