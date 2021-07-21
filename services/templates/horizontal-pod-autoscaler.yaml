@@ -13,7 +13,7 @@ spec:
   minReplicas: {{ .Values.container.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.container.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.concourse.worker.autoscaling.metrics }}
-{{ toYaml .Values.concourse.worker.autoscaling.metrics | indent 4 }}
+    {{- if .Values.container.autoscaling.metrics }}
+{{ toYaml .Values.container.autoscaling.metrics | indent 4 }}
     {{- end }}
 {{- end }}
