@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "coremaker-common-chart.fullname" . }}
+  labels:
+    app_name: {{ template "coremaker-common-chart.fullname" . }}
+    app_version: {{ .Values.image.tag }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app_name: {{ template "coremaker-common-chart.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app_name: {{ template "coremaker-common-chart.fullname" . }}
+        app_version: {{ .Values.image.tag }}
+    spec:
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      initContainers:
+{{- if .Values.initContainers }}
+{{- toYaml .Values.initContainers | nindent 8 }}
+{{- end }}
+      containers:
+{{- if .Values.sidecarContainers }}
+{{- toYaml .Values.sidecarContainers | nindent 8 }}
+{{- end }}
+        - name: {{ template "coremaker-common-chart.fullname" . }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+{{- if .Values.container.env }}
+{{- range $key, $value := .Values.container.env }}
+            - name: "{{ tpl $key $ }}"
+              value: "{{ tpl (print $value) $ }}"
+{{- end }}
+{{- end }}
+{{- if .Values.container.envFromSecret }}
+{{ toYaml .Values.container.envFromSecret | indent 12 }}
+{{- end }}
+          volumeMounts:
+{{- if .Values.container.additionalVolumeMounts }}
+{{ toYaml .Values.container.additionalVolumeMounts | indent 12 }}
+{{- end }}
+          ports:
+            - name: {{ .Values.container.ports.name }}
+              containerPort: {{ .Values.container.ports.port }}
+{{- if .Values.container.livenessProbe }}
+          livenessProbe:
+{{ toYaml .Values.container.livenessProbe | indent 12 }}
+{{- end }}
+{{- if .Values.container.readinessProbe }}
+          readinessProbe:
+{{ toYaml .Values.container.readinessProbe | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.container.resources | indent 12 }}
+      volumes:
+{{- if .Values.additionalVolumes }}
+{{ toYaml .Values.additionalVolumes | indent 8 }}
+{{- end }}
