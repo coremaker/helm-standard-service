@@ -1,5 +1,5 @@
 ## Provide a name in place of the default one as the release name
-#nameOverride:
+nameOverride:
 
 replicaCount: 1
 image:
