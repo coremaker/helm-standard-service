@@ -60,16 +60,18 @@ container:
   ##
   additionalVolumeMounts: []
 
-## Enable Horizontal Pod Autoscaling
-#      maxReplicas: 1
-#      minReplicas: 1
-#      metrics:
-#        - type: Resource
-#          resource:
-#            name: cpu
-#            target:
-#              type: Utilization
-#              averageUtilization: 80
+  ## Enable Horizontal Pod Autoscaling
+  #   minReplicas: 1
+  #   maxReplicas: 10
+  #   metrics:
+  #   - type: Resource
+  #     resource:
+  #       name: cpu
+  #       targetAverageUtilization: 60
+  #   - type: Resource
+  #     resource:
+  #       name: memory
+  #       targetAverageUtilization: 60
   autoscaling: { }
 
 ## Used to change the backend of the service

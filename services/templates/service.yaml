@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "coremaker-common-chart.fullname" . }}
   annotations:
-    cloud.google.com/backend-config: '{"ports": {"http":"api-v2-service-backend"}}'
+    cloud.google.com/backend-config: '{"ports": {"http":"{{ template "coremaker-common-chart.fullname" . }}-service-backend"}}'
   labels:
     app_name: {{ template "coremaker-common-chart.fullname" . }}
     app_version: {{ .Chart.Version }}
@@ -16,4 +16,3 @@ spec:
       targetPort: {{ .Values.container.port }}
   selector:
     app_name: {{ template "coremaker-common-chart.fullname" . }}
-    app_name: {{ .Chart.Name }}
