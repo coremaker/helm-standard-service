@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}
+  name: {{ template "coremaker-common-chart.fullname" . }}
   labels:
-    app_name: {{ .Chart.Name }}
+    app_name: {{ template "coremaker-common-chart.fullname" . }}
     app_version: {{ .Values.image.tag }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app_name: {{ .Chart.Name }}
+      app_name: {{ template "coremaker-common-chart.fullname" . }}
   template:
     metadata:
       labels:
-        app_name: {{ .Chart.Name }}
+        app_name: {{ template "coremaker-common-chart.fullname" . }}
         app_version: {{ .Values.image.tag }}
     spec:
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
@@ -25,7 +25,7 @@ spec:
 {{- if .Values.sidecarContainers }}
 {{- toYaml .Values.sidecarContainers | nindent 8 }}
 {{- end }}
-        - name: {{ .Chart.Name }}
+        - name: {{ template "coremaker-common-chart.fullname" . }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:

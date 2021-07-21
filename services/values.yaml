@@ -1,6 +1,9 @@
 ## Provide a name in place of the default one as the release name
 nameOverride:
 
+## Provide a name to substitute for the full names of resources
+fullnameOverride:
+
 replicaCount: 1
 image:
   pullPolicy: IfNotPresent
