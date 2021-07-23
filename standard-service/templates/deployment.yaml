@@ -29,6 +29,8 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: BASE_IMAGE
+              value: {{ .Values.image.repository }}:{{ .Values.image.tag }}
 {{- if .Values.container.env }}
 {{- range $key, $value := .Values.container.env }}
             - name: "{{ tpl $key $ }}"
