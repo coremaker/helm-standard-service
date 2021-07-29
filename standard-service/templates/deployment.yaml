@@ -21,6 +21,9 @@ spec:
 {{- if .Values.initContainers }}
 {{- toYaml .Values.initContainers | nindent 8 }}
 {{- end }}
+{{- if .Values.container.serviceAccount.create }}
+      serviceAccountName: {{ template "coremaker-common-chart.fullname" . }}
+{{- end }}
       containers:
 {{- if .Values.sidecarContainers }}
 {{- toYaml .Values.sidecarContainers | nindent 8 }}
