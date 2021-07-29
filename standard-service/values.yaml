@@ -80,6 +80,14 @@ container:
     # Increase backend timeout, usually needed for longer http connections
     timeout: 43200
 
+
+  serviceAccount:
+    create: false
+    roleRules: []
+      # - apiGroups: []
+      #   resources: []
+      #   verbs: []
+
   resources:
     requests:
       cpu: "100m"
