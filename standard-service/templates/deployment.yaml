@@ -34,11 +34,18 @@ spec:
           env:
             - name: BASE_IMAGE
               value: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            - name: APP_NAME
+              value: {{ template "coremaker-common-chart.fullname" . }}
+            - name: APP_VERSION
+              value: {{ .Values.image.tag }}
 {{- if .Values.container.env }}
 {{- range $key, $value := .Values.container.env }}
             - name: "{{ tpl $key $ }}"
               value: "{{ tpl (print $value) $ }}"
 {{- end }}
+{{- end }}
+{{- if .Values.container.envFrom }}
+{{ toYaml .Values.container.envFrom | indent 12 }}
 {{- end }}
 {{- if .Values.container.envFromSecret }}
 {{ toYaml .Values.container.envFromSecret | indent 12 }}

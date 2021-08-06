@@ -42,6 +42,13 @@ container:
   ## AWS_REGION: us-east-1
   ##
   env: {}
+
+##  - name: MY_POD_NAME
+##    valueFrom:
+##      fieldRef:
+##        fieldPath: metadata.name
+  envFrom: []
+  
   ## Secret Example
   ##    - name: KAFKA_PASSWORD
   ##      valueFrom:
