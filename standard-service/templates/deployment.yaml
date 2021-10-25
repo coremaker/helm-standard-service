@@ -34,6 +34,8 @@ spec:
           env:
             - name: BASE_IMAGE
               value: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            - name: CONTAINER_NAME
+              value: {{ template "coremaker-common-chart.fullname" . }}
             - name: APP_NAME
               value: {{ template "coremaker-common-chart.fullname" . }}
             - name: APP_VERSION
