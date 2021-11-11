@@ -126,3 +126,11 @@ sidecarContainers: []
 ##   command: ['sh', '-c', 'echo Hello && sleep 3600']
 ##
 initContainers: []
+
+fluxv2:
+  enabled: false
+  imageRepository:
+    namespace: flux-system
+    interval: 5m
+    suspend: false
+    gcrSecretName: fluxv2-gcr-credentials
