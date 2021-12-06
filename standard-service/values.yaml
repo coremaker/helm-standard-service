@@ -48,7 +48,7 @@ container:
   #     secretKeyRef:
   #       name: aws-credentials
   #       key: key
-  envFrom: []
+  envFrom: {}
 
   ## Configure additional volumeMounts
   ##
