@@ -47,10 +47,11 @@ spec:
 {{- end }}
 {{- end }}
 {{- if .Values.container.envFrom }}
-{{ toYaml .Values.container.envFrom | indent 12 }}
+{{- range $key, $value := .Values.container.envFrom }}
+            - name: {{ $key | quote }}
+              valueFrom:
+{{ toYaml $value | indent 16 }}
 {{- end }}
-{{- if .Values.container.envFromSecret }}
-{{ toYaml .Values.container.envFromSecret | indent 12 }}
 {{- end }}
           volumeMounts:
 {{- if .Values.container.additionalVolumeMounts }}

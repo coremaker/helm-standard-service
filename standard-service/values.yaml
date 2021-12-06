@@ -43,19 +43,12 @@ container:
   ##
   env: {}
 
-##  - name: MY_POD_NAME
-##    valueFrom:
-##      fieldRef:
-##        fieldPath: metadata.name
+  # envFrom:
+  #   AWS_KEY:
+  #     secretKeyRef:
+  #       name: aws-credentials
+  #       key: key
   envFrom: []
-  
-  ## Secret Example
-  ##    - name: KAFKA_PASSWORD
-  ##      valueFrom:
-  ##        secretKeyRef:
-  ##          name: kafka-secret
-  ##          key: password
-  envFromSecret: []
 
   ## Configure additional volumeMounts
   ##
