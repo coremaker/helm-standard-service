@@ -24,6 +24,15 @@ spec:
 {{- if .Values.container.serviceAccount.create }}
       serviceAccountName: {{ template "coremaker-common-chart.fullname" . }}
 {{- end }}
+{{- if .Values.topologySpreadConstraints.enabled -}}
+      topologySpreadConstraints:
+        - maxSkew: {{ .Values.topologySpreadConstraints.maxSkew }}
+          topologyKey: {{ .Values.topologySpreadConstraints.topologyKey }}
+          whenUnsatisfiable: {{ .Values.topologySpreadConstraints.whenUnsatisfiable }}
+          labelSelector:
+            matchLabels:
+              app_name: {{ template "coremaker-common-chart.fullname" . }}    
+{{- end }}
       containers:
 {{- if .Values.sidecarContainers }}
 {{- toYaml .Values.sidecarContainers | nindent 8 }}

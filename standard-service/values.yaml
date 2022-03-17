@@ -9,6 +9,14 @@ image:
   pullPolicy: IfNotPresent
 terminationGracePeriodSeconds: 30
 
+## Spreads the pods accross nodes evenly
+## REF: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
+topologySpreadConstraints:
+  enabled: false
+  maxSkew: 1
+  topologyKey: kubernetes.io/hostname
+  whenUnsatisfiable: ScheduleAnyway
+
 container:
   ports:
     name: node
