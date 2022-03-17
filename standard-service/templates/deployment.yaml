@@ -24,7 +24,7 @@ spec:
 {{- if .Values.container.serviceAccount.create }}
       serviceAccountName: {{ template "coremaker-common-chart.fullname" . }}
 {{- end }}
-{{- if .Values.topologySpreadConstraints.enabled -}}
+{{- if .Values.topologySpreadConstraints.enabled }}
       topologySpreadConstraints:
         - maxSkew: {{ .Values.topologySpreadConstraints.maxSkew }}
           topologyKey: {{ .Values.topologySpreadConstraints.topologyKey }}
