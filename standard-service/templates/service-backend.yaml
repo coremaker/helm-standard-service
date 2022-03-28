@@ -5,4 +5,6 @@ metadata:
   name: {{ template "coremaker-common-chart.fullname" . }}-service-backend
 spec:
   timeoutSec: {{ .Values.container.backend.timeout }}
+  connectionDraining:
+    drainingTimeoutSec: {{ .Values.container.backend.connectionDrainingTimeoutSec }}
 {{- end }}
