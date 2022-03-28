@@ -83,10 +83,14 @@ container:
   autoscaling: { }
 
 ## Used to change the backend of the service
+# REF: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#associating_backendconfig_with_your_ingress
   backend:
     enabled: false
     # Increase backend timeout, usually needed for longer http connections
+    # REF: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#timeout
     timeout: 43200
+    # REF: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#expandable-1
+    connectionDrainingTimeoutSec: 60
 
 
   serviceAccount:
