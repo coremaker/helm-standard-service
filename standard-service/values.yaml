@@ -58,6 +58,11 @@ container:
   #       key: key
   envFrom: {}
 
+  ## The names of secrets in the same kubernetes namespace which contain values to be added to the environment
+  ## Name is templated.
+  ## - name: secret-name
+  envFromSecrets: []
+  
   ## Configure additional volumeMounts
   ##
   ## Example:
