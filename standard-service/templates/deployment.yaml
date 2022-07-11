@@ -76,6 +76,9 @@ spec:
           ports:
             - name: {{ .Values.container.ports.name }}
               containerPort: {{ .Values.container.ports.port }}
+{{- if .Values.container.additionalPorts }}
+{{ toYaml .Values.container.additionalPorts | indent 12 }}
+{{- end }}
 {{- if .Values.container.livenessProbe }}
           livenessProbe:
 {{ toYaml .Values.container.livenessProbe | indent 12 }}
