@@ -10,11 +10,15 @@ spec:
   selector:
     matchLabels:
       app_name: {{ template "coremaker-common-chart.fullname" . }}
+      app: {{ template "coremaker-common-chart.fullname" . }}
+      version: v1
   template:
     metadata:
       labels:
         app_name: {{ template "coremaker-common-chart.fullname" . }}
         app_version: {{ .Values.image.tag }}
+        app: {{ template "coremaker-common-chart.fullname" . }}
+        version: v1
     spec:
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       initContainers:

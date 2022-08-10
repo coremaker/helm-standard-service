@@ -5,6 +5,8 @@ metadata:
   name: {{ template "coremaker-common-chart.fullname" . }}-autoscaler
   labels:
     chart: {{ template "coremaker-common-chart.fullname" . }}
+    app: {{ template "coremaker-common-chart.fullname" . }}
+    version: v1
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
