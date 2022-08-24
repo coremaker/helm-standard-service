@@ -61,6 +61,15 @@ container:
       path: /health
       port: node
 
+
+  ## Configure lifecyle preStop and postStart handlers
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+  ## lifecycle:
+  ##  preStop:
+  ##     exec:
+  ##       command: ["/bin/sh", "-c", "sleep 60; /usr/sbin/nginx -c /etc/nginx/nginx.conf -s quit; while pgrep -x nginx; do sleep 1; done"]
+
+
   ## Configure environment variables
   ##
   ## Example:
