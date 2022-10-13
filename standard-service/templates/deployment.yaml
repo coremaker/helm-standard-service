@@ -4,7 +4,7 @@ metadata:
   name: {{ template "coremaker-common-chart.fullname" . }}
   labels:
     app_name: {{ template "coremaker-common-chart.fullname" . }}
-    app_version: {{ .Values.image.tag }}
+    app_version: "{{ .Values.image.tag }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -16,7 +16,7 @@ spec:
     metadata:
       labels:
         app_name: {{ template "coremaker-common-chart.fullname" . }}
-        app_version: {{ .Values.image.tag }}
+        app_version: "{{ .Values.image.tag }}"
         app: {{ template "coremaker-common-chart.fullname" . }}
         version: v1
     spec:
@@ -52,7 +52,7 @@ spec:
             - name: APP_NAME
               value: {{ template "coremaker-common-chart.fullname" . }}
             - name: APP_VERSION
-              value: {{ .Values.image.tag }}
+              value: "{{ .Values.image.tag }}"
 {{- if .Values.container.env }}
 {{- range $key, $value := .Values.container.env }}
             - name: "{{ tpl $key $ }}"
