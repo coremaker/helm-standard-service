@@ -9,6 +9,8 @@ metadata:
   labels:
     app_name: {{ template "coremaker-common-chart.fullname" . }}
     app_version: {{ .Chart.Version }}
+    app: {{ template "coremaker-common-chart.fullname" . }}
+    version: v1
 
 spec:
   type: NodePort
@@ -21,3 +23,5 @@ spec:
       targetPort: {{ .Values.container.ports.port }}
   selector:
     app_name: {{ template "coremaker-common-chart.fullname" . }}
+    app: {{ template "coremaker-common-chart.fullname" . }}
+    version: v1
