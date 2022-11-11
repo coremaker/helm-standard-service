@@ -53,6 +53,14 @@ spec:
               value: {{ template "coremaker-common-chart.fullname" . }}
             - name: APP_VERSION
               value: "{{ .Values.image.tag }}"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
 {{- if .Values.container.env }}
 {{- range $key, $value := .Values.container.env }}
             - name: "{{ tpl $key $ }}"
@@ -90,6 +98,10 @@ spec:
 {{- if .Values.container.readinessProbe }}
           readinessProbe:
 {{ toYaml .Values.container.readinessProbe | indent 12 }}
+{{- end }}
+{{- if .Values.container.lifecycle }}
+          lifecycle:
+{{ toYaml .Values.container.lifecycle | indent 12 }}
 {{- end }}
           resources:
 {{ toYaml .Values.container.resources | indent 12 }}
