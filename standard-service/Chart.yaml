@@ -1,4 +1,4 @@
 apiVersion: v1
 name: coremaker-standard-service
-version: 0.1.9
+version: 0.2.0
 description: This is the coremaker common helm chart used to deploy our services
