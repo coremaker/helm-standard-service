@@ -41,6 +41,9 @@ container:
   ##
   additionalServicePorts: []
 
+  ## Override default container args (useful when using custom images)
+  args: []
+
   ## Configures the liveness probe used to determine if the Worker component is up.
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
   livenessProbe:

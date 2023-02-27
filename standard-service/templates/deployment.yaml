@@ -95,6 +95,10 @@ spec:
           livenessProbe:
 {{ toYaml .Values.container.livenessProbe | indent 12 }}
 {{- end }}
+{{- if .Values.container.args }}
+          args:
+{{ toYaml .Values.container.args | indent 12 }}
+{{- end }}
 {{- if .Values.container.readinessProbe }}
           readinessProbe:
 {{ toYaml .Values.container.readinessProbe | indent 12 }}
