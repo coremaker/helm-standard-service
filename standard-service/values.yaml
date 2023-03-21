@@ -128,6 +128,16 @@ container:
     timeout: 43200
     # REF: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#expandable-1
     connectionDrainingTimeoutSec: 60
+    ## Configure custom headers
+    # REF: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-configuration#request_headers
+    ## Example:
+
+    ## headers:
+    ## - "X-Client-Region:{client_region}"
+    ## - "X-Client-City:{client_city}"
+    ##
+    customRequest:
+      headers: []
 
 
   serviceAccount:
