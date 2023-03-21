@@ -7,4 +7,9 @@ spec:
   timeoutSec: {{ .Values.container.backend.timeout }}
   connectionDraining:
     drainingTimeoutSec: {{ .Values.container.backend.connectionDrainingTimeoutSec }}
+{{- if .Values.container.backend.customRequest.headers }}
+  customRequestHeaders:
+    headers:
+{{ toYaml .Values.container.backend.customRequest.headers | indent 4 }}
+{{- end }}
 {{- end }}
