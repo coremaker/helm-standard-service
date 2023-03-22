@@ -186,3 +186,6 @@ fluxv2:
     interval: 5m
     suspend: false
     gcrSecretName: fluxv2-gcr-credentials
+
+istio:
+  selectors: false
