@@ -23,5 +23,7 @@ spec:
       targetPort: {{ .Values.container.ports.port }}
   selector:
     app_name: {{ template "coremaker-common-chart.fullname" . }}
+{{- if .Values.istio.selectors }}
     app: {{ template "coremaker-common-chart.fullname" . }}
     version: v1
+{{- end }} 

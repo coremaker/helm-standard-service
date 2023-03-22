@@ -10,8 +10,10 @@ spec:
   selector:
     matchLabels:
       app_name: {{ template "coremaker-common-chart.fullname" . }}
+{{- if .Values.istio.selectors }}
       app: {{ template "coremaker-common-chart.fullname" . }}
       version: v1
+{{- end }}
   template:
     metadata:
       labels:
