@@ -17,9 +17,9 @@ topologySpreadConstraints:
   topologyKey: kubernetes.io/hostname
   whenUnsatisfiable: ScheduleAnyway
 
-  securityContext:
-    fsGroup: 1337
-    runAsNonRoot: true
+securityContext:
+  fsGroup: 1337
+  runAsNonRoot: true
 
 container:
   ports:
