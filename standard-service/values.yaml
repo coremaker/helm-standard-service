@@ -17,6 +17,10 @@ topologySpreadConstraints:
   topologyKey: kubernetes.io/hostname
   whenUnsatisfiable: ScheduleAnyway
 
+  securityContext:
+    fsGroup: 1337
+    runAsNonRoot: true
+
 container:
   ports:
     name: node
@@ -95,6 +99,11 @@ container:
   ## - name: secret-name
   envFromSecrets: []
   
+  securityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+
   ## Configure additional volumeMounts
   ##
   ## Example:
