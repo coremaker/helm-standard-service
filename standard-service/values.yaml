@@ -99,10 +99,13 @@ container:
   ## - name: secret-name
   envFromSecrets: []
   
-  securityContext:
-    allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: true
-    runAsNonRoot: true
+  # securityContext:
+  #   allowPrivilegeEscalation: false
+  #   readOnlyRootFilesystem: true
+  #   runAsNonRoot: true
+  #   runAsUser: 1000
+
+  securityContext: []
 
   ## Configure additional volumeMounts
   ##

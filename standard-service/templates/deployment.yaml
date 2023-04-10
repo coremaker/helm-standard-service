@@ -86,10 +86,10 @@ spec:
                 name: {{ tpl .name $ }}
 {{- end }}
 {{- end }}
+{{- if .Values.container.securityContext }}
           securityContext:
-            allowPrivilegeEscalation: {{ .Values.container.securityContext.allowPrivilegeEscalation }}
-            readOnlyRootFilesystem: {{ .Values.container.securityContext.readOnlyRootFilesystem }}
-            runAsNonRoot: {{ .Values.container.securityContext.runAsNonRoot }}
+{{ toYaml .Values.container.securityContext | indent 12 }}
+{{- end }}
           volumeMounts:
 {{- if .Values.container.additionalVolumeMounts }}
 {{ toYaml .Values.container.additionalVolumeMounts | indent 12 }}
