@@ -7,6 +7,10 @@ spec:
   timeoutSec: {{ .Values.container.backend.timeout }}
   connectionDraining:
     drainingTimeoutSec: {{ .Values.container.backend.connectionDrainingTimeoutSec }}
+  healthCheck:
+    type: HTTP
+    requestPath: {{ .Values.container.livenessProbe.httpGet.path }}
+    port: {{ .Values.container.ports.port }}
 {{- if .Values.container.backend.customRequest.headers }}
   customRequestHeaders:
     headers:
