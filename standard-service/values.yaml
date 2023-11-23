@@ -133,6 +133,8 @@ container:
   #       targetAverageUtilization: 60
   autoscaling: { }
 
+  autoscalerApiVersion: v2
+
 ## Used to change the backend of the service
 # REF: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#associating_backendconfig_with_your_ingress
   backend:
@@ -192,6 +194,21 @@ sidecarContainers: []
 ##   command: ['sh', '-c', 'echo Hello && sleep 3600']
 ##
 initContainers: []
+
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+##
+nodeSelector: {}
+
+## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+## For example:
+##
+##   - key: "toleration=key"
+##     operator: "Equal"
+##     value: "value"
+##     effect: "NoSchedule"
+##
+tolerations: []
 
 fluxv2:
   enabled: false
