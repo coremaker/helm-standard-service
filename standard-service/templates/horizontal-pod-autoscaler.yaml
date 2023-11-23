@@ -1,5 +1,5 @@
 {{- if  .Values.container.autoscaling }}
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/{{ .Values.autoscalerApiVersion }}
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ template "coremaker-common-chart.fullname" . }}-autoscaler
@@ -14,6 +14,10 @@ spec:
     name: {{ template "coremaker-common-chart.fullname" . }}
   minReplicas: {{ .Values.container.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.container.autoscaling.maxReplicas }}
+  {{- if .Values.container.autoscaling.behavior }}
+  behavior:
+{{ toYaml .Values.container.autoscaling.behavior | indent 4 }}
+  {{- end }}
   metrics:
 {{ toYaml .Values.container.autoscaling.metrics | indent 4 }}
 {{- end }}
