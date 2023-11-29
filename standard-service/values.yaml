@@ -145,6 +145,22 @@ container:
 
   autoscalerApiVersion: v2
 
+  ## Enable Keda Autoscaling
+  # minReplicaCount: 0
+  # maxReplicaCount: 15
+  # triggers:
+  #   - type: gcp-pubsub
+  #     metadata:
+  #       subscriptionSize: "5" # Deprecated, use mode and value fields instead
+  #       mode: "SubscriptionSize" # Optional - Default is SubscriptionSize - SubscriptionSize or OldestUnackedMessageAge
+  #       value: "5.5" # Optional - Default is 10
+  #       activationValue: "10.5" # Optional - Default is 0
+  #       subscriptionName: "mysubscription" # Required
+  #       credentialsFromEnv: GOOGLE_APPLICATION_CREDENTIALS_JSON # Required
+  keda:
+    enabled: false
+    triggers: { }
+
 ## Used to change the backend of the service
 # REF: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#associating_backendconfig_with_your_ingress
   backend:

@@ -1,0 +1,16 @@
+{{- if .Values.container.keda.enabled }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ template "coremaker-common-chart.fullname" . }}
+  labels:
+    chart: {{ template "coremaker-common-chart.fullname" . }}
+    app: {{ template "coremaker-common-chart.fullname" . }}
+spec:
+  scaleTargetRef:
+    name: {{ template "coremaker-common-chart.fullname" . }}
+  minReplicaCount: {{ .Values.container.keda.minReplicaCount }}
+  maxReplicaCount: {{ .Values.container.keda.maxReplicaCount }}
+  triggers:
+{{ toYaml .Values.container.keda.triggers | indent 4 }}
+{{- end }}
