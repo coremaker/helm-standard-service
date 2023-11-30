@@ -12,5 +12,5 @@ spec:
   minReplicaCount: {{ .Values.container.keda.minReplicaCount }}
   maxReplicaCount: {{ .Values.container.keda.maxReplicaCount }}
   triggers:
-{{ toYaml .Values.container.keda.triggers | indent 4 }}
+{{ toYaml .Values.container.keda.triggers | indent 3 }}
 {{- end }}
