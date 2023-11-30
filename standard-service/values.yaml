@@ -230,3 +230,10 @@ fluxv2:
 
 istio:
   selectors: false
+
+##  Enable Requests Limits for Istio Proxy espcially GKE Autopilot https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh#custom-injection
+##  annotations:
+##    sidecar.istio.io/proxyCPU: "200m"
+##    sidecar.istio.io/proxyCPULimit: "200m"
+##    sidecar.istio.io/proxyMemory: "256Mi"
+##    sidecar.istio.io/proxyMemoryLimit: "256Mi"

@@ -16,6 +16,10 @@ spec:
 {{- end }}
   template:
     metadata:
+      annotations:
+{{- if .Values.istio.annotations }}
+{{ toYaml .Values.istio.annotations | indent 8 }}
+{{- end }}
       labels:
         app_name: {{ template "coremaker-common-chart.fullname" . }}
         app_version: "{{ .Values.image.tag }}"

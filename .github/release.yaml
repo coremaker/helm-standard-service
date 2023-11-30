@@ -1,0 +1,47 @@
+name: "Create tag and release"
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
+
+    - name: Bump version and push tag
+      id: tag
+      uses: anothrNick/github-tag-action@1.61.0 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+
+    - name: Download release notes utility
+      env:
+        GH_REL_URL: https://github.com/buchanae/github-release-notes/releases/download/0.2.0/github-release-notes-linux-amd64-0.2.0.tar.gz
+      run: cd /tmp && curl -sSL ${GH_REL_URL} | tar xz && sudo mv github-release-notes /usr/local/bin/
+
+    - name: Generate release notes
+      run: |
+        NOTES="./notes.md"
+        echo -e "## CLI Changelog\n" > ${NOTES}
+        github-release-notes -org coremaker -repo helm-standard-service -since-latest-release -include-author >> ${NOTES}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ steps.tag.outputs.tag }}
+        bodyFile: "notes.md"
+        token: ${{ secrets.GITHUB_TOKEN }}
