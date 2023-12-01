@@ -146,17 +146,21 @@ container:
   autoscalerApiVersion: v2
 
   ## Enable Keda Autoscaling
+  # enabled: true
+  # authSecretReference:
+  # - parameter: GoogleApplicationCredentials
+  #   name: some_secret_name
+  #   key: credentials.json
   # minReplicaCount: 0
-  # maxReplicaCount: 15
+  # maxReplicaCount: 20
   # triggers:
-  #   - type: gcp-pubsub
-  #     metadata:
-  #       subscriptionSize: "5" # Deprecated, use mode and value fields instead
-  #       mode: "SubscriptionSize" # Optional - Default is SubscriptionSize - SubscriptionSize or OldestUnackedMessageAge
-  #       value: "5.5" # Optional - Default is 10
-  #       activationValue: "10.5" # Optional - Default is 0
-  #       subscriptionName: "mysubscription" # Required
-  #       credentialsFromEnv: GOOGLE_APPLICATION_CREDENTIALS_JSON # Required
+  # - type: gcp-pubsub
+  #   authenticationRef:
+  #     name: keda-auth
+  #   metadata:
+  #     mode: "SubscriptionSize"
+  #     value: "2"
+  #     subscriptionName: "scraping-command-subscription"
   keda:
     enabled: false
     triggers: { }
