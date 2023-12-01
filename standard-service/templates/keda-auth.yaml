@@ -8,5 +8,5 @@ metadata:
     app: {{ template "coremaker-common-chart.fullname" . }}
 spec:
   secretTargetRef:
-{{ toYaml .Values.container.keda.authSecretReference | indent 2 }}
+{{ toYaml .Values.container.keda.authSecretReference | indent 4 }}
 {{- end }}
