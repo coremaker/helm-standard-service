@@ -6,7 +6,9 @@ metadata:
     app_name: {{ template "coremaker-common-chart.fullname" . }}
     app_version: "{{ .Values.image.tag }}"
 spec:
+{{- if not .Values.container.keda.enabled }}
   replicas: {{ .Values.replicaCount }}
+{{- end }}
   selector:
     matchLabels:
       app_name: {{ template "coremaker-common-chart.fullname" . }}
