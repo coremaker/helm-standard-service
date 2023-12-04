@@ -1,0 +1,12 @@
+{{- if .Values.container.keda.enabled }}
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: {{ template "coremaker-common-chart.fullname" . }}-auth
+  labels:
+    chart: {{ template "coremaker-common-chart.fullname" . }}
+    app: {{ template "coremaker-common-chart.fullname" . }}
+spec:
+  secretTargetRef:
+{{ toYaml .Values.container.keda.authSecretReference | indent 4 }}
+{{- end }}

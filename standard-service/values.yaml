@@ -145,6 +145,26 @@ container:
 
   autoscalerApiVersion: v2
 
+  ## Enable Keda Autoscaling
+  # enabled: true
+  # authSecretReference:
+  # - parameter: GoogleApplicationCredentials
+  #   name: some_secret_name
+  #   key: credentials.json
+  # minReplicaCount: 0
+  # maxReplicaCount: 20
+  # triggers:
+  # - type: gcp-pubsub
+  #   authenticationRef:
+  #     name: keda-auth
+  #   metadata:
+  #     mode: "SubscriptionSize"
+  #     value: "2"
+  #     subscriptionName: "scraping-command-subscription"
+  keda:
+    enabled: false
+    triggers: { }
+
 ## Used to change the backend of the service
 # REF: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#associating_backendconfig_with_your_ingress
   backend:
@@ -233,6 +253,7 @@ istio:
 
 ##  Enable Requests Limits for Istio Proxy espcially GKE Autopilot https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh#custom-injection
 ##  annotations:
+##    autopilot.gke.io/primary-container: container-name
 ##    sidecar.istio.io/proxyCPU: "200m"
 ##    sidecar.istio.io/proxyCPULimit: "200m"
 ##    sidecar.istio.io/proxyMemory: "256Mi"
