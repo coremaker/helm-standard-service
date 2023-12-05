@@ -153,6 +153,13 @@ container:
   #   key: credentials.json
   # minReplicaCount: 0
   # maxReplicaCount: 20
+  # pollingInterval: 5
+  # cooldownPeriod: 5
+  # advanced:
+  #   horizontalPodAutoscalerConfig:
+  #     behavior:
+  #       scaleDown:
+  #         stabilizationWindowSeconds: 15
   # triggers:
   # - type: gcp-pubsub
   #   authenticationRef:

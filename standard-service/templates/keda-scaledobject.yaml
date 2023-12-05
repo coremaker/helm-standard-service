@@ -11,6 +11,12 @@ spec:
     name: {{ template "coremaker-common-chart.fullname" . }}
   minReplicaCount: {{ .Values.container.keda.minReplicaCount }}
   maxReplicaCount: {{ .Values.container.keda.maxReplicaCount }}
+  pollingInterval: {{ .Values.container.keda.pollingInterval }}
+  cooldownPeriod: {{ .Values.container.keda.cooldownPeriod }}
+{{- if .Values.container.keda.advanced }}
+  advanced:
+{{ toYaml .Values.container.keda.advanced | indent 4 }}
+{{- end }}
   triggers:
 {{ toYaml .Values.container.keda.triggers | indent 4 }}
 {{- end }}
