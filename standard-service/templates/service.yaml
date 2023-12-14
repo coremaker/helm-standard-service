@@ -13,7 +13,7 @@ metadata:
     version: v1
 
 spec:
-  type: NodePort
+  type: {{ .Values.service.type | default "NodePort" }}
   ports:
 {{- if .Values.container.additionalServicePorts }}
 {{ toYaml .Values.container.additionalServicePorts | indent 4 }}
