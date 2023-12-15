@@ -18,8 +18,8 @@ spec:
 {{- if .Values.container.additionalServicePorts }}
 {{ toYaml .Values.container.additionalServicePorts | indent 4 }}
 {{- end }} 
-    - name: {{ .Values.container.ports.exposedPortName }}
-      port: {{ .Values.container.ports.exposedPort }}
+    - name: {{ .Values.service.port.name }}
+      port: {{ .Values.service.port.value }}
       targetPort: {{ .Values.container.ports.port }}
   selector:
     app_name: {{ template "coremaker-common-chart.fullname" . }}
