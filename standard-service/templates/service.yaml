@@ -13,13 +13,13 @@ metadata:
     version: v1
 
 spec:
-  type: {{ .Values.service.type | default "NodePort" }}
+  type: {{ .Values.container.service.type }}
   ports:
 {{- if .Values.container.additionalServicePorts }}
 {{ toYaml .Values.container.additionalServicePorts | indent 4 }}
 {{- end }} 
-    - name: http
-      port: 80
+    - name: {{ .Values.container.ports.exposedPortName }}
+      port: {{ .Values.container.ports.exposedPort }}
       targetPort: {{ .Values.container.ports.port }}
   selector:
     app_name: {{ template "coremaker-common-chart.fullname" . }}

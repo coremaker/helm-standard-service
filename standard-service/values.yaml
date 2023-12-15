@@ -3,7 +3,7 @@ nameOverride:
 
 ## Provide a name to substitute for the full names of resources
 fullnameOverride:
-
+  
 replicaCount: 1
 image:
   pullPolicy: IfNotPresent
@@ -25,6 +25,8 @@ container:
   ports:
     name: node
     port: 5000
+    exposedPort: 80
+    exposedPortName: http
 
   ## Configure additional ports
   ##
@@ -44,6 +46,9 @@ container:
   ##   targetPort: 50051
   ##
   additionalServicePorts: []
+
+  service:
+    type: NodePort
 
   ## Override default container args (useful when using custom images)
   args: []
@@ -265,3 +270,4 @@ istio:
 ##    sidecar.istio.io/proxyCPULimit: "200m"
 ##    sidecar.istio.io/proxyMemory: "256Mi"
 ##    sidecar.istio.io/proxyMemoryLimit: "256Mi"
+
