@@ -21,6 +21,12 @@ securityContext:
   fsGroup: 1337
   runAsNonRoot: true
 
+service:
+  type: NodePort
+  port:
+    name: http
+    value: 80
+
 container:
   ports:
     name: node
@@ -44,12 +50,6 @@ container:
   ##   targetPort: 50051
   ##
   additionalServicePorts: []
-
-  service:
-    type: NodePort
-    port:
-      name: http
-      value: 80
 
   ## Override default container args (useful when using custom images)
   args: []
