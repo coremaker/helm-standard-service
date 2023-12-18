@@ -3,7 +3,7 @@ nameOverride:
 
 ## Provide a name to substitute for the full names of resources
 fullnameOverride:
-
+  
 replicaCount: 1
 image:
   pullPolicy: IfNotPresent
@@ -20,6 +20,12 @@ topologySpreadConstraints:
 securityContext:
   fsGroup: 1337
   runAsNonRoot: true
+
+service:
+  type: NodePort
+  port:
+    name: http
+    value: 80
 
 container:
   ports:
@@ -265,3 +271,4 @@ istio:
 ##    sidecar.istio.io/proxyCPULimit: "200m"
 ##    sidecar.istio.io/proxyMemory: "256Mi"
 ##    sidecar.istio.io/proxyMemoryLimit: "256Mi"
+
