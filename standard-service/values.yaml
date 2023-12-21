@@ -272,3 +272,7 @@ istio:
 ##    sidecar.istio.io/proxyMemory: "256Mi"
 ##    sidecar.istio.io/proxyMemoryLimit: "256Mi"
 
+### Pod Disruption Budget https://kubernetes.io/docs/tasks/run-application/configure-pdb/#create-the-pdb-object
+poddisruptionbudget:
+  enabled: false
+  minAvailable: 1
