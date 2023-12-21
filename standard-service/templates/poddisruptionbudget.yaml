@@ -1,0 +1,11 @@
+{{ if .Values.poddisruptionbudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: pdb-{{ template "coremaker-common-chart.fullname" . }}
+spec:
+  minAvailable: {{ .Values.poddisruptionbudget.minAvailable }}
+  selector:
+    matchLabels:
+      app: {{ template "coremaker-common-chart.fullname" . }}
+{{ end }}
