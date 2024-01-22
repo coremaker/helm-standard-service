@@ -1,5 +1,5 @@
 {{- if .Values.container.autoscaling }}
-apiVersion: autoscaling/{{ .Values.autoscalerApiVersion }}
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ template "coremaker-common-chart.fullname" . }}-autoscaler
