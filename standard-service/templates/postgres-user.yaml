@@ -1,0 +1,13 @@
+{{- if .Values.postgres.user.enabled -}}
+apiVersion: postgres.coremaker.io/v1
+kind: PostgresUser
+metadata:
+  name: {{ template "coremaker-common-chart.fullname" . }}
+spec:
+  database:
+{{ toYaml .Values.postgres.user.databaseRef | indent 4 }}
+  userName: {{ .Values.postgres.user.username }}
+  deletionProtection: {{ .Values.postgres.user.deletionProtection }}
+  passwordSecretRef:
+{{ toYaml .Values.postgres.user.passwordSecretRef | indent 4 }}
+{{- end }}

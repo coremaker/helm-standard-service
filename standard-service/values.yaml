@@ -276,3 +276,22 @@ istio:
 poddisruptionbudget:
   enabled: false
   minAvailable: 1
+
+## Enable postgres resources creation
+## Check https://github.com/coremaker/postgres-operator for more details about these fields
+# postgres:
+#   user:
+#     enabled: true
+#     username: api
+#     deletionProtection: true
+#     database:
+#       name: cloudsql-authentication
+#       namespace: default
+#     passwordSecretRef:
+#       generatePassword: true
+#       secretName: cloudsql-access-right-credentials
+#       passwordKey: USERNAME_PASSWORD
+postgres:
+  user:
+    enabled: false
+
