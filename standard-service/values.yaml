@@ -205,6 +205,8 @@ container:
       # - apiGroups: []
       #   resources: []
       #   verbs: []
+    # annotations:
+    #   iam.gke.io/gcp-service-account: svc-name@some-project.iam.gserviceaccount.com
 
   resources:
     requests:
@@ -260,6 +262,10 @@ fluxv2:
     interval: 5m
     suspend: false
     gcrSecretName: fluxv2-gcr-credentials
+
+##  Add custom annotations for the deployment
+## annotations:
+##   gke-gcsfuse/volumes: "true" #Required
 
 istio:
   selectors: false
