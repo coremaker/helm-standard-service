@@ -139,3 +139,7 @@ spec:
 {{- if .Values.additionalVolumes }}
 {{ toYaml .Values.additionalVolumes | indent 8 }}
 {{- end }}
+{{- if .Values.container.command }}
+          command:
+{{ toYaml .Values.container.command.cmd | indent 12 }}
+{{- end }}

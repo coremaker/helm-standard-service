@@ -85,6 +85,14 @@ container:
   ##       command: ["/bin/sh", "-c", "sleep 60; /usr/sbin/nginx -c /etc/nginx/nginx.conf -s quit; while pgrep -x nginx; do sleep 1; done"]
   lifecycle: []
 
+  ## Configure the main container commands
+  command: {}
+
+  # command:
+  #   cmd:
+  #     - /bin/sh
+  #     - -c
+  #     - "while true; do sleep 60; done"
 
   ## Configure environment variables
   ##
