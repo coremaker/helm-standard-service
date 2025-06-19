@@ -141,5 +141,5 @@ spec:
 {{- end }}
 {{- if .Values.container.command }}
           command:
-{{ toYaml .Values.container.command.cmd | indent 12 }}
+{{ toYaml .Values.container.command | indent 12 }}
 {{- end }}

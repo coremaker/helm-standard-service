@@ -89,10 +89,9 @@ container:
   command: {}
 
   # command:
-  #   cmd:
-  #     - /bin/sh
-  #     - -c
-  #     - "while true; do sleep 60; done"
+  #   - /bin/sh
+  #   - -c
+  #   - "while true; do sleep 60; done"
 
   ## Configure environment variables
   ##
