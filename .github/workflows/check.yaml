@@ -10,7 +10,7 @@ on:
       - .github/workflows/release.yaml
 
 jobs:
-  tag-and-release:
+  check-tag:
     runs-on: ubuntu-latest
     permissions:
       contents: write
