@@ -1,0 +1,17 @@
+{{- if and .Values.public.enabled .Values.public.healthCheckPolicy.default}}
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: {{ include "release.fullname" . }}
+  labels:
+    app: {{ include "release.fullname" . }}
+    version: "{{ .Values.image.tag }}"
+    track: {{ .Values.track | quote }}
+spec:
+  default:
+{{ toYaml .Values.public.healthCheckPolicy.default | indent 4 }}
+  targetRef:
+    group: ""
+    kind: Service
+    name: {{ include "release.fullname" . }}
+{{- end }}

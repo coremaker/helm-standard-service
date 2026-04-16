@@ -1,0 +1,17 @@
+{{- if and .Values.public.enabled .Values.public.backendPolicy.default }}
+apiVersion: networking.gke.io/v1
+kind: GCPBackendPolicy
+metadata:
+  name: {{ include "release.fullname" . }}
+  labels:
+    app: {{ include "release.fullname" . }}
+    version: "{{ .Values.image.tag }}"
+    track: {{ .Values.track | quote }}
+spec:
+  default:
+{{ toYaml .Values.public.backendPolicy.default | indent 4 }}
+  targetRef:
+    group: ""
+    kind: Service
+    name: {{ include "release.fullname" . }}
+{{- end }}

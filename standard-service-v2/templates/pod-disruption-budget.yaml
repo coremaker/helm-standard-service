@@ -1,0 +1,15 @@
+{{- if .Values.poddisruptionbudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: pdb-{{ include "release.fullname" . }}
+  labels:
+    app: {{ include "release.fullname" . }}
+    version: "{{ .Values.image.tag }}"
+    track: {{ .Values.track | quote }}
+spec:
+  {{ .Values.poddisruptionbudget.type }}: {{ .Values.poddisruptionbudget.value }}
+  selector:
+    matchLabels:
+      app: {{ include "release.fullname" . }}
+{{- end }}
