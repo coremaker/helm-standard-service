@@ -1,11 +1,11 @@
-name: "Create tag and release for standard-service"
+name: "Create tag and release for standard-service-v2"
 
 on:
   push:
     branches:
       - "main"
     paths:
-      - "standard-service/**"
+      - "standard-service-v2/**"
 
 jobs:
   tag-and-release:
@@ -23,8 +23,8 @@ jobs:
       - name: Read chart version
         id: chart
         run: |
-          VERSION=$(grep '^version:' standard-service/Chart.yaml | awk '{print $2}')
-          TAG="chart-v1/v${VERSION}"
+          VERSION=$(grep '^version:' standard-service-v2/Chart.yaml | awk '{print $2}')
+          TAG="chart-v2/v${VERSION}"
 
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
@@ -58,9 +58,9 @@ jobs:
       - name: Generate release notes
         run: |
           NOTES="./notes.md"
-          PREV_TAG=$(git tag --sort=-creatordate | grep '^standard-service/v' | grep -vx "${{ steps.chart.outputs.tag }}" | head -n 1 || true)
+          PREV_TAG=$(git tag --sort=-creatordate | grep '^standard-service-v2/v' | grep -vx "${{ steps.chart.outputs.tag }}" | head -n 1 || true)
 
-          echo "## standard-service Changelog" > "${NOTES}"
+          echo "## standard-service-v2 Changelog" > "${NOTES}"
           echo "" >> "${NOTES}"
           echo "**Version:** ${{ steps.chart.outputs.version }}" >> "${NOTES}"
           echo "" >> "${NOTES}"
@@ -68,11 +68,11 @@ jobs:
           if [ -n "${PREV_TAG}" ]; then
             echo "Changes since ${PREV_TAG}:" >> "${NOTES}"
             echo "" >> "${NOTES}"
-            git log --pretty=format:'- %s (%h)' "${PREV_TAG}"..HEAD -- standard-service >> "${NOTES}"
+            git log --pretty=format:'- %s (%h)' "${PREV_TAG}"..HEAD -- standard-service-v2 >> "${NOTES}"
           else
             echo "Initial release." >> "${NOTES}"
             echo "" >> "${NOTES}"
-            git log --pretty=format:'- %s (%h)' -- standard-service >> "${NOTES}"
+            git log --pretty=format:'- %s (%h)' -- standard-service-v2 >> "${NOTES}"
           fi
 
           cat "${NOTES}"
