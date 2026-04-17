@@ -215,7 +215,6 @@ fluxv2:
 public:
   enabled: false
 #httproute:
-#  enabled: true
 #  parentRefs:
 #    - name: shared-external-gateway
 #      namespace: communitise
@@ -236,7 +235,6 @@ public:
     rules: []
 
 #healthCheckPolicy:
-#  enabled: true
 #  default:
 #    checkIntervalSec: 10
 #    timeoutSec: 5
