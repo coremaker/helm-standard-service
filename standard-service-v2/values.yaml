@@ -1,0 +1,261 @@
+replicaCount: 1
+track: stable
+image:
+  pullPolicy: IfNotPresent
+terminationGracePeriodSeconds: 30
+
+## Spreads the pods accross nodes evenly
+## REF: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
+topologySpreadConstraints:
+  enabled: false
+  maxSkew: 1
+  topologyKey: kubernetes.io/hostname
+  whenUnsatisfiable: ScheduleAnyway
+
+securityContext:
+  fsGroup: 1337
+  runAsNonRoot: true
+
+service:
+  type: ClusterIP
+  annotations: {}
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+
+container:
+  ports:
+    - name: http
+      containerPort: 5000
+      protocol: TCP
+
+  ## Override default container args (useful when using custom images)
+  args: {}
+
+  ## Configures the liveness probe used to determine if the Worker component is up.
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+  ## ADD it on demand
+  livenessProbe: {}
+  # livenessProbe:
+  #   failureThreshold: 12
+  #   initialDelaySeconds: 20
+  #   timeoutSeconds: 10
+  #   httpGet:
+  #     path: /health
+  #     port: http
+
+  ## Configures the readiness probes.
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+  ## ADD it on demand
+  readinessProbe: {}
+  # readinessProbe:
+  #   initialDelaySeconds: 20
+  #   timeoutSeconds: 10
+  #   failureThreshold: 12
+  #   httpGet:
+  #     path: /health
+  #     port: http
+
+
+  ## Configure lifecyle preStop and postStart handlers
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+  ## lifecycle:
+  ##  preStop:
+  ##     exec:
+  ##       command: ["/bin/sh", "-c", "sleep 60; /usr/sbin/nginx -c /etc/nginx/nginx.conf -s quit; while pgrep -x nginx; do sleep 1; done"]
+  lifecycle: {}
+
+
+  ## Configure environment variables
+  ##
+  ## Example:
+  ## TESTING_INSTANCE: false
+  ##
+  ## AWS_REGION: us-east-1
+  ##
+  env: {}
+
+  # envFrom:
+  #   AWS_KEY:
+  #     secretKeyRef:
+  #       name: aws-credentials
+  #       key: key
+  envFrom: {}
+
+  ## The names of secrets in the same kubernetes namespace which contain values to be added to the environment
+  ## Name is templated.
+  ## - name: secret-name
+  envFromSecrets: {}
+  
+  # securityContext:
+  #   allowPrivilegeEscalation: false
+  #   readOnlyRootFilesystem: true
+  #   runAsNonRoot: true
+  #   runAsUser: 1000
+
+  securityContext: {}
+
+  ## Configure additional volumeMounts
+  ##
+  ## Example:
+
+  ##  - name: sql-proxy-secret
+  ##    mountPath: /secrets/cloudsql
+  ##    readOnly: true
+  ##
+  additionalVolumeMounts: {}
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+## Configure additional volumes
+##   additionalVolumes:
+##    - name: sql-proxy-secret
+##      secret:
+##        secretName: sql-proxy-secret
+##
+additionalVolumes: {}
+
+## Array of extra containers to run alongside the main container
+##
+## Example:
+##
+## - name: myapp-container
+##   image: busybox
+##   command: ['sh', '-c', 'echo Hello && sleep 3600']
+##
+sidecarContainers: {}
+
+## Array of extra initContainers to run alongside the main container
+##
+## Example:
+## - name: myapp-init-container
+##   image: busybox
+##   command: ['sh', '-c', 'echo Hello && sleep 3600']
+##
+initContainers: {}
+
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+##
+nodeSelector: {}
+
+## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+## For example:
+##
+##   - key: "toleration=key"
+##     operator: "Equal"
+##     value: "value"
+##     effect: "NoSchedule"
+##
+tolerations: {}
+
+serviceAccount:
+  create: false
+  annotations: {}
+  # annotations:
+  #   iam.gke.io/gcp-service-account: svc-name@some-project.iam.gserviceaccount.com
+
+rbac:
+  create: false
+  roleRules: []
+  # - apiGroups: [""]
+  #   resources: ["pods"]
+  #   verbs: ["get", "list"]
+
+### Pod Disruption Budget https://kubernetes.io/docs/tasks/run-application/configure-pdb/#create-the-pdb-object
+poddisruptionbudget:
+  enabled: false
+  type: maxUnavailable # or minAvailable
+  value: 1
+
+## Enable Horizontal Pod Autoscaling
+#
+# autoscaling:
+#   minReplicas: 1
+#   maxReplicas: 10
+#   behavior:
+#     scaleDown:
+#       stabilizationWindowSeconds: 1200
+#       selectPolicy: Min
+#       policies:
+#         - type: Percent
+#           value: 10
+#           periodSeconds: 300
+#     scaleUp:
+#       stabilizationWindowSeconds: 60
+#   metrics:
+#     - type: Resource
+#       resource:
+#         name: cpu
+#         target:
+#           type: Utilization
+#           averageUtilization: 60
+#     - type: Resource
+#       resource:
+#         name: memory
+#         target:
+#           type: Utilization
+#           averageUtilization: 60
+autoscaling: {}
+
+fluxv2:
+  enabled: false
+  imageRepository:
+    namespace: flux-system
+    interval: 5m
+    suspend: false
+    secretName: fluxv2-gcr-credentials
+
+public:
+  enabled: false
+#httproute:
+#  parentRefs:
+#    - name: shared-external-gateway
+#      namespace: communitise
+#  hostnames:
+#    - inbox.example.com
+#  rules:
+#    - matches:
+#        - path:
+#            type: PathPrefix
+#            value: /
+#      backendRefs:
+#        - name: inbox
+# 
+#          port: 80
+  httproute:
+    parentRefs: []
+    hostnames: []
+    rules: []
+
+#healthCheckPolicy:
+#  default:
+#    checkIntervalSec: 10
+#    timeoutSec: 5
+#    healthyThreshold: 1
+#    unhealthyThreshold: 3
+#    logConfig:
+#      enabled: true
+#    config:
+#      type: HTTP
+#      httpHealthCheck:
+#        portSpecification: USE_FIXED_PORT
+#        port: 5000
+#        requestPath: /health
+  healthCheckPolicy:
+    default: {}
+
+# Websockets
+#  backendPolicy:
+#    default:
+#      timeoutSec: 1800
+#      connectionDraining:
+#        drainingTimeoutSec: 60
+  backendPolicy:
+    default: {}

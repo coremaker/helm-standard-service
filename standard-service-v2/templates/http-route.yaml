@@ -1,0 +1,19 @@
+{{- if .Values.public.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ include "release.fullname" . }}
+  labels:
+    app: {{ include "release.fullname" . }}
+    version: "{{ .Values.image.tag }}"
+    track: {{ .Values.track | quote }}
+spec:
+  parentRefs:
+{{ toYaml .Values.public.httproute.parentRefs | indent 4 }}
+  {{- if .Values.public.httproute.hostnames }}
+  hostnames:
+{{ toYaml .Values.public.httproute.hostnames | indent 4 }}
+  {{- end }}
+  rules:
+{{ toYaml .Values.public.httproute.rules | indent 4 }}
+{{- end }}

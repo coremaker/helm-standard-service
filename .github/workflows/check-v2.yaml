@@ -1,0 +1,50 @@
+name: "Check tag for standard-service-v2"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - standard-service-v2/**
+      - .github/workflows/check-v2.yaml
+      - .github/workflows/release-v2.yaml
+
+jobs:
+  check-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read chart version
+        id: chart
+        run: |
+          VERSION=$(grep '^version:' standard-service-v2/Chart.yaml | awk '{print $2}')
+          TAG="chart-v2/v${VERSION}"
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+          echo "Chart version: ${VERSION}"
+          echo "Tag: ${TAG}"
+
+      - name: Check if tag already exists
+        id: tagcheck
+        run: |
+          if git rev-parse "${{ steps.chart.outputs.tag }}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fail if tag already exists
+        if: steps.tagcheck.outputs.exists == 'true'
+        run: |
+          echo "Tag ${{ steps.chart.outputs.tag }} already exists."
+          exit 1

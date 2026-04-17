@@ -1,0 +1,16 @@
+{{- if .Values.fluxv2.enabled -}}
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageRepository
+metadata:
+  name: {{ include "release.fullname" . }}
+  namespace: {{ .Values.fluxv2.imageRepository.namespace }}
+spec:
+  interval: {{ .Values.fluxv2.imageRepository.interval }}
+  image: {{ .Values.image.repository }}
+  suspend: {{ .Values.fluxv2.imageRepository.suspend }}
+  secretRef:
+    name: {{ .Values.fluxv2.imageRepository.secretName }}
+  accessFrom:
+    namespaceSelectors:
+      - matchLabels: {}
+{{- end }}

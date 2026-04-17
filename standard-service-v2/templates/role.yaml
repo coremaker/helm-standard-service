@@ -1,0 +1,12 @@
+{{- if and .Values.serviceAccount.create .Values.rbac.create .Values.rbac.roleRules }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "release.fullname" . }}
+  labels:
+    app: {{ include "release.fullname" . }}
+    version: "{{ .Values.image.tag }}"
+    track: {{ .Values.track | quote }}
+rules:
+{{ toYaml .Values.rbac.roleRules | indent 2 }}
+{{- end -}}

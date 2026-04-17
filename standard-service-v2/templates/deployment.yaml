@@ -1,0 +1,130 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "release.fullname" . }}
+  labels:
+    app: {{ include "release.fullname" . }}
+    version: "{{ .Values.image.tag }}"
+    track: {{ .Values.track | quote }}
+spec:
+{{- if not .Values.autoscaling }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "release.fullname" . }}
+  template:
+    metadata:
+{{- if .Values.annotations }}
+      annotations:
+{{ toYaml .Values.annotations | indent 8 }}
+{{- end }}
+      labels:
+        app: {{ include "release.fullname" . }}
+        version: "{{ .Values.image.tag }}"
+        track: {{ .Values.track | quote }}
+    spec:
+{{- if .Values.serviceAccount.create }}
+      serviceAccountName: {{ include "release.fullname" . }}
+{{- end }}
+{{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+{{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+{{- if .Values.initContainers }}
+      initContainers:
+{{- toYaml .Values.initContainers | nindent 8 }}
+{{- end }}
+{{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+{{- end }}
+{{- if .Values.topologySpreadConstraints.enabled }}
+      topologySpreadConstraints:
+        - maxSkew: {{ .Values.topologySpreadConstraints.maxSkew }}
+          topologyKey: {{ .Values.topologySpreadConstraints.topologyKey }}
+          whenUnsatisfiable: {{ .Values.topologySpreadConstraints.whenUnsatisfiable }}
+          labelSelector:
+            matchLabels:
+              app: {{ include "release.fullname" . }}
+{{- end }}
+      securityContext:
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+        runAsNonRoot: {{ .Values.securityContext.runAsNonRoot }}
+      containers:
+{{- if .Values.sidecarContainers }}
+{{- toYaml .Values.sidecarContainers | nindent 8 }}
+{{- end }}
+        - name: {{ include "release.fullname" . }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: BASE_IMAGE
+              value: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            - name: CONTAINER_NAME
+              value: {{ include "release.fullname" . }}
+            - name: APP_NAME
+              value: {{ include "release.fullname" . }}
+            - name: APP_VERSION
+              value: "{{ .Values.image.tag }}"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+{{- if .Values.container.env }}
+{{- range $key, $value := .Values.container.env }}
+            - name: "{{ tpl $key $ }}"
+              value: "{{ tpl (print $value) $ }}"
+{{- end }}
+{{- end }}
+{{- if .Values.container.envFrom }}
+{{- range $key, $value := .Values.container.envFrom }}
+            - name: {{ $key | quote }}
+              valueFrom:
+{{ toYaml $value | indent 16 }}
+{{- end }}
+{{- end }}
+{{- if .Values.container.envFromSecrets }}
+          envFrom:
+{{- range .Values.container.envFromSecrets }}
+            - secretRef:
+                name: {{ tpl .name $ }}
+{{- end }}
+{{- end }}
+{{- if .Values.container.securityContext }}
+          securityContext:
+{{ toYaml .Values.container.securityContext | indent 12 }}
+{{- end }}
+{{- if .Values.container.additionalVolumeMounts }}
+          volumeMounts:
+{{ toYaml .Values.container.additionalVolumeMounts | indent 12 }}
+{{- end }}
+          ports:
+{{ toYaml .Values.container.ports | indent 12 }}
+{{- if .Values.container.livenessProbe }}
+          livenessProbe:
+{{ toYaml .Values.container.livenessProbe | indent 12 }}
+{{- end }}
+{{- if .Values.container.args }}
+          args:
+{{ toYaml .Values.container.args | indent 12 }}
+{{- end }}
+{{- if .Values.container.readinessProbe }}
+          readinessProbe:
+{{ toYaml .Values.container.readinessProbe | indent 12 }}
+{{- end }}
+{{- if .Values.container.lifecycle }}
+          lifecycle:
+{{ toYaml .Values.container.lifecycle | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.container.resources | indent 12 }}
+{{- if .Values.additionalVolumes }}
+      volumes:
+{{ toYaml .Values.additionalVolumes | indent 8 }}
+{{- end }}
